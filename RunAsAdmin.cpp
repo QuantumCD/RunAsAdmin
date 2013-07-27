@@ -76,7 +76,8 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
-			MessageBox(NULL, L"Unable to locate suitable executable.\nCheck your configuration file.\n(Have you created a configuration file?)",
+			MessageBox(NULL, L"Unable to locate suitable executable.\nCheck your configuration file.\n"
+				L"(Have you created a configuration file?)",
 				L"Run As Admin - Error", MB_OK | MB_ICONERROR);
 			return -1;
 		}
@@ -84,7 +85,8 @@ int main(int argc, char* argv[])
 		std::string commandLineParametersFromConfig;
 		std::getline(configFileStream, commandLineParametersFromConfig);
 
-		// This is just a fallback. Use the provided parameters before anything else, i.e. the ones passed to this application (argv)
+		// This is just a fallback. Use the provided parameters before anything else,
+		// i.e. the ones passed to this application (argv)
 		if (!commandLineParametersFromConfig.empty() && paramString.empty())
 		{
 			paramString.assign(commandLineParametersFromConfig.begin(), commandLineParametersFromConfig.end());
@@ -92,14 +94,18 @@ int main(int argc, char* argv[])
 
 		configFileStream.close();
 	}
-	else if (applicationExecutable.empty()) // This triggers if a) the file can't be opened and b) there is no default file name provided in the source.
+	else if (applicationExecutable.empty()) // This triggers if a) the file can't be opened and 
+											// b) there is no default file name provided in the source.
 	{
-		MessageBox(NULL, L"Unable to open configuration file.\n(Have you created a configuration file?)", L"Run As Admin - Error", MB_OK | MB_ICONERROR);
+		MessageBox(NULL, L"Unable to open configuration file.\n(Have you created a configuration file?)", 
+			L"Run As Admin - Error", MB_OK | MB_ICONERROR);
+
 		return -2;
 	}
 
 	// This launches the application with the UAC prompt, and administrator rights are requested. 
-	ShellExecute(NULL, _T("RUNAS"), (LPCWSTR)applicationExecutable.c_str(), (LPCWSTR)paramString.c_str(), NULL, SW_SHOWNORMAL);
+	ShellExecute(NULL, _T("RUNAS"), (LPCWSTR)applicationExecutable.c_str(), (LPCWSTR)paramString.c_str(), NULL,
+		SW_SHOWNORMAL);
 
 	return 0;
 }
