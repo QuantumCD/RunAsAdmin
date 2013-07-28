@@ -91,8 +91,8 @@ int main(int argc, char* argv[])
 	}
 
 	// This launches the application with the UAC prompt, and administrator rights are requested. 
-	HINSTANCE shellResult = ShellExecute(NULL, _T("RUNAS"), (LPCWSTR)applicationExecutable.c_str(), (LPCWSTR)paramString.c_str(), NULL,
-		SW_SHOWNORMAL);
+	HINSTANCE shellResult = ShellExecute(NULL, _T("RUNAS"), (LPCWSTR)applicationExecutable.c_str(), 
+		(LPCWSTR)paramString.c_str(), NULL, SW_SHOWNORMAL);
 
 	int returnCode = (int)shellResult;
 
