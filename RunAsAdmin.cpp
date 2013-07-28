@@ -55,8 +55,22 @@ int main(int argc, char* argv[])
 	for (auto &str : parameters)
 		paramString += L" " + str;
 
-	std::ifstream configFileStream;
-	configFileStream.open("RunAsAdmin.cfg", std::ifstream::in);
+	std::ifstream configFileStream("RunAsAdmin.cfg");
+
+	if (!configFileStream)
+	{
+		std::ofstream createConfigFile("RunAsAdmin.cfg");
+
+		createConfigFile << "MyApplication.exe" << std::endl;
+		createConfigFile << "--my-command-line-argument --another-argument" << std::endl;
+
+		MessageBox(NULL, L"Configuration file didn't exist before... now it's there.\n"
+			L"Be sure you change the properties so that it works!", L"Run As Admin - Error", 
+			MB_OK | MB_ICONINFORMATION);
+
+		createConfigFile.close();
+		return -2;
+	}
 
 	// Make sure the file is open for reading. 
 	if (configFileStream.is_open())
@@ -82,7 +96,7 @@ int main(int argc, char* argv[])
 		configFileStream.close();
 	}
 	else if (applicationExecutable.empty()) // This triggers if a) the file can't be opened and 
-						// b) there is no default file name provided in the source.
+		// b) there is no default file name provided in the source.
 	{
 		MessageBox(NULL, L"Unable to open configuration file.\n(Have you created a configuration file?)", 
 			L"Run As Admin - Error", MB_OK | MB_ICONERROR);
