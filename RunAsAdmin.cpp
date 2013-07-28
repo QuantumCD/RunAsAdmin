@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
 		configFileStream.close();
 	}
 	else if (applicationExecutable.empty()) // This triggers if a) the file can't be opened and 
-											// b) there is no default file name provided in the source.
+						// b) there is no default file name provided in the source.
 	{
 		MessageBox(NULL, L"Unable to open configuration file.\n(Have you created a configuration file?)", 
 			L"Run As Admin - Error", MB_OK | MB_ICONERROR);
