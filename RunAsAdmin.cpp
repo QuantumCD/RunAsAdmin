@@ -67,20 +67,7 @@ int main(int argc, char* argv[])
 		std::wstring wApplicationNameFromConfig;
 		wApplicationNameFromConfig.assign(applicationNameFromConfig.begin(), applicationNameFromConfig.end());
 
-		std::ifstream checkIfExists(wApplicationNameFromConfig);
-
-		// Make sure the config executable actually exists. 
-		if (checkIfExists)
-		{
-			applicationExecutable = wApplicationNameFromConfig;
-		}
-		else
-		{
-			MessageBox(NULL, L"Unable to locate suitable executable.\nCheck your configuration file.\n"
-				L"(Have you created a configuration file?)",
-				L"Run As Admin - Error", MB_OK | MB_ICONERROR);
-			return -1;
-		}
+		applicationExecutable = wApplicationNameFromConfig;
 
 		std::string commandLineParametersFromConfig;
 		std::getline(configFileStream, commandLineParametersFromConfig);
@@ -104,8 +91,22 @@ int main(int argc, char* argv[])
 	}
 
 	// This launches the application with the UAC prompt, and administrator rights are requested. 
-	ShellExecute(NULL, _T("RUNAS"), (LPCWSTR)applicationExecutable.c_str(), (LPCWSTR)paramString.c_str(), NULL,
+	HINSTANCE shellResult = ShellExecute(NULL, _T("RUNAS"), (LPCWSTR)applicationExecutable.c_str(), (LPCWSTR)paramString.c_str(), NULL,
 		SW_SHOWNORMAL);
+
+	int returnCode = (int)shellResult;
+
+	// ShellExecute returns a value less than 32 if it fails
+	if (returnCode < 32)
+	{
+		switch (returnCode)
+		{
+		case ERROR_FILE_NOT_FOUND:
+			MessageBox(NULL, L"Could not find executable.", L"Run As Admin - Error", MB_OK | MB_ICONERROR);
+		default:
+			break;
+		}
+	}
 
 	return 0;
 }
