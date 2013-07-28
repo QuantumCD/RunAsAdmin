@@ -103,7 +103,16 @@ int main(int argc, char* argv[])
 		{
 		case ERROR_FILE_NOT_FOUND:
 			MessageBox(NULL, L"Could not find executable.", L"Run As Admin - Error", MB_OK | MB_ICONERROR);
+			break;
+
+		case ERROR_BAD_FORMAT:
+			MessageBox(NULL, L"Provided file isn't an executable and/or an invalid executable.", 
+				L"Run as Admin - Error", MB_OK | MB_ICONERROR);
+			break;
+
 		default:
+			MessageBox(NULL, L"An unknown critical error has occurred. Unable to launch executable.", 
+				L"Run as Admin - Error", MB_OK | MB_ICONERROR);
 			break;
 		}
 	}
