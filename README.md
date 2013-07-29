@@ -7,7 +7,7 @@ Configuration File
 ==========
 
 The configuration file <b>has to be named <i>RunAsAdmin.cfg</i>!</b> If a file named this isn't placed directly next to the 
-executable, then the application won't be able to load any configuration and will fail. 
+executable, then the application won't be able to load any configuration and will fail. When there is no file present, RunAsAdmin will create a default configuration file and alert you to the creation. Be sure to edit this though!
 
 Configuration is extremely easy. It's just a two-line text file (not .txt, .cfg!). The first line is the executable you 
 want to launch, and the second line is all the default command line arguments you may need. 
